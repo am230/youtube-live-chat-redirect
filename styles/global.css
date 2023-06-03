@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap');
+* {
+    margin: 0px;
+    color: #000;
+    font-family: 'Comfortaa', cursive;
+    font-weight: bold;
+    --color-primary: rgb(61, 160, 180);
+}
+
+::selection {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+
+.main {
+    position: absolute;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+}
+
+body {
+    background: linear-gradient(to right, var(--color-primary), var(--color-primary));
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.message {
+    position: fixed;
+    top: calc(50vh - 150px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    background: -webkit-linear-gradient(-90deg, rgb(0, 0, 0), var(--color-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 1.0;
+    transition: 0.15s;
+    animation: cubic-bezier(0.14, 0.02, 0.25, 1.49) 0.5s forwards;
+}
+
+.message:empty {
+    top: calc(50vh - 160px);
+    opacity: 0.0;
+}
+
+form {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    top: 50vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+
+input {
+    background-color: transparent;
+    outline: none;
+    width: 300px;
+    height: 24px;
+    border: none;
+    background-position: 0 100%;
+    transition: background-size 0.3s, background-position 0s 0.3s;
+    border-bottom: 1px solid #000;
+}
+
+input:focus {
+    border-bottom: 1px solid var(--color-primary);
+}
+
+button {
+    margin: 10px;
+    outline: none;
+    width: 120px;
+    height: 26px;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: var(--color-primary);
+    color: #fff;
+}
