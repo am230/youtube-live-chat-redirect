@@ -1,9 +1,25 @@
 import {NextApiRequest, NextApiResponse} from "next"
 
+
+const isValidUrl = (url) => {
+    try {
+        new URL(url);
+        return true;
+    } catch (err) {
+        return false;
+    }
+};
+
 export function getChannelId(url: string): Promise<string> {
+    if (!url) {
+        return Promise.reject(new Error('入力できてないかもしれません...'))
+    }
     const match = url.match(/^@(.+)$/)
     if (match) {
         url = `https://www.youtube.com/@${match[1]}`
+    }
+    if (!isValidUrl(url)) {
+        return Promise.reject(new Error('URLが間違ってるかもです...'))
     }
     return new Promise((resolve, reject) => {
         fetch(url)
@@ -11,7 +27,7 @@ export function getChannelId(url: string): Promise<string> {
             .then((data) => {
                 const match = data.match(/<meta itemprop="identifier" content="([\w-]+)">/)
                 if (!match) {
-                    return reject(new Error('Channel not found...'))
+                    return reject(new Error('チャンネルが見つかりませんでした...'))
                 }
                 return resolve(match[1])
             })
@@ -34,14 +50,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     getChannelId(url)
         .then(id => {
             res.status(200).json({
-                id,
-                ok: true
+                id, ok: true
             })
         })
         .catch((err) => {
             res.status(200).json({
-                error: err.toString(),
-                ok: false
+                error: err.toString(), ok: false
             })
         })
 }

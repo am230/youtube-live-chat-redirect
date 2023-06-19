@@ -48,7 +48,7 @@ const Home = () => {
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
                         />
-                        <button onClick={handleSubmit}>Create & Copy</button>
+                        <button onClick={handleSubmit}>作ってコピー</button>
                     </form>)}
             />
             {message}
