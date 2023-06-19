@@ -1,10 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
 
 * {
-    margin: 0px;
+    margin: 0;
     color: #000;
-    font-family: 'Comfortaa', cursive;
-    font-weight: bold;
+    font-family: 'Noto Sans JP', sans-serif;
     --color-primary: #3da0b4;
 }
 
@@ -35,7 +34,7 @@ a {
 
 .message {
     position: fixed;
-    top: calc(35vh - 150px);
+    top: calc(50vh - 25vh);
     left: 50%;
     transform: translate(-50%, -50%);
     transition: 0.15s;
@@ -98,6 +97,10 @@ input:focus::placeholder {
 input:focus {
     background: var(--color-primary);
     color: #ffffff;
+}
+
+input:hover, input:focus {
+    transform: scale(105%) translateY(-1px);
 }
 
 button {
