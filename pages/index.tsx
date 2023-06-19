@@ -54,12 +54,14 @@ const Home = () => {
         <Form
             onSubmit={createLink}
             render={({handleSubmit}) => (<form onSubmit={handleSubmit}>
+                1.
                 <input
                     type="text"
                     placeholder='@id'
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                 />
+                2.
                 <button onClick={handleSubmit}>作ってコピー</button>
             </form>)}
         />
