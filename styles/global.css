@@ -51,8 +51,7 @@ a {
     gap: 4px;
     left: 50%;
     top: calc(50vh + 5vh);
-    width: 100%;
-    transform: translateX(-25%);
+    transform: translateX(-50%);
     flex-direction: column;
 }
 
