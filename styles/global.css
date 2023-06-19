@@ -50,7 +50,7 @@ a {
     display: flex;
     gap: 4px;
     left: 50%;
-    top: calc(50vh + 5vh);
+    top: calc(50vh + max(32px, 5vh));
     transform: translateX(-50%);
     flex-direction: column;
 }
