@@ -15,7 +15,6 @@
 .main {
     position: absolute;
     left: 50vw;
-    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: row;
 }
@@ -27,9 +26,20 @@ body {
 }
 
 a {
-    color: #fff;
-    text-decoration: none;
+    color: var(--color-primary);
     font-size: 15px;
+    text-decoration: underline;
+    text-underline-offset: 8px;
+}
+
+.bottom {
+    position: fixed;
+    color: var(--color-primary);
+    font-size: 12px;
+    display: flex;
+    gap: 4px;
+    bottom: 20px;
+    right: 10px;
 }
 
 .message {
