@@ -69,7 +69,7 @@ const Home = () => {
         {tip}
         <div className="bottom">
             <a href="https://github.com/am230/youtube-live-chat-redirect">YTChat Redirect</a>
-            Made by <a href="https://twitter.com/AM4_02">二時半</a>
+            by <a href="https://twitter.com/AM4_02">二時半</a>
         </div>
     </div>);
 };
