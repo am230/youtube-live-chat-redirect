@@ -50,7 +50,7 @@ const Home = () => {
                     <form onSubmit={handleSubmit}>
                         <input
                             type="text"
-                            placeholder='url...'
+                            placeholder='@id'
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
                         />
