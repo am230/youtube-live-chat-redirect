@@ -32,7 +32,7 @@ const Home = () => {
         await navigator.clipboard.writeText(result);
         setMessage(<p className='message'>
             <span className="material-symbols-outlined">&#xe86c;</span>
-            Copied!
+            コピーしました！
         </p>);
         setTimeout(() => destroyMessage(), 5000);
     };
