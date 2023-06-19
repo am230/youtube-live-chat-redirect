@@ -23,13 +23,25 @@ interface Body {
     url: string
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse,) {
+export interface Response {
+    id?: string
+    error?: string
+    ok: boolean
+}
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Response>,) {
     const {url} = req.body as unknown as Body
     getChannelId(url)
         .then(id => {
-            res.status(200).json(id)
+            res.status(200).json({
+                id,
+                ok: true
+            })
         })
         .catch((err) => {
-            res.status(500).json(err)
+            res.status(200).json({
+                error: err.toString(),
+                ok: false
+            })
         })
 }
