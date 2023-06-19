@@ -1,6 +1,6 @@
 import {NextApiRequest, NextApiResponse} from "next"
 
-function getChannelId(url: string): Promise<string> {
+export function getChannelId(url: string): Promise<string> {
     const match = url.match(/^@(.+)$/)
     if (match) {
         url = `https://www.youtube.com/@${match[1]}`

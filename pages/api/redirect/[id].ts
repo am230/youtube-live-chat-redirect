@@ -1,5 +1,6 @@
 import {NextApiRequest, NextApiResponse} from "next"
 import {DOMParser} from 'xmldom'
+import {getChannelId} from "../channel_id";
 function fetchLastVideoUrl(channelId: string): Promise<string> {
     return new Promise((resolve, reject) => {
         fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`)
@@ -23,7 +24,10 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse,
 ) {
-    const {id} = req.query as unknown as Query
+    let {id} = req.query as unknown as Query
+    if (id.includes('@')) {
+        id = await getChannelId(id)
+    }
     fetchLastVideoUrl(id)
         .then((url) => res.redirect(`https://www.youtube.com/live_chat?is_popout=1&v=${url}`))
         .catch((err) => {
