@@ -101,16 +101,16 @@ form {
 
 input {
     margin: 10px;
-    width: calc(min(20vw, 230px));
+    width: 230px;
     height: 32px;
     border: none;
-    background-color: transparent;
     color: #1c5a67;
     outline: 2px solid var(--color-primary);
     font-weight: 900;
     border-radius: 10px;
     padding-left: 10px;
     transition: 0.1s;
+    background-color: #fff;
 }
 
 input:focus::placeholder {
@@ -126,19 +126,17 @@ input:hover, input:focus {
     transform: scale(105%) translateY(-1px);
 }
 
-button {    margin: 10px;
+button {
+    margin: 10px;
     width: 150px;
     height: 34px;
     border: none;
-    background-color: transparent;
     color: #1c5a67;
     outline: 2px solid var(--color-primary);
     font-weight: 900;
     border-radius: 10px;
     transition: 0.1s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: #fff;
 }
 
 button:hover {
