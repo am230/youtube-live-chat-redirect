@@ -40,6 +40,20 @@ a {
     gap: 4px;
     bottom: 20px;
     right: 10px;
+    align-items: flex-end;
+}
+
+.tip {
+    position: fixed;
+    color: var(--color-primary);
+    font-size: 12px;
+    display: flex;
+    gap: 4px;
+    left: 50%;
+    top: calc(50vh + 5vh);
+    width: 100%;
+    transform: translateX(-25%);
+    flex-direction: column;
 }
 
 .message {

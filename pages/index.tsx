@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form} from 'react-final-form';
 import {Response} from "./api/channel_id";
 import axios from "axios";
@@ -36,27 +36,40 @@ const Home = () => {
         </p>);
         setTimeout(() => destroyMessage(), 5000);
     };
-
-    return (<div className='main'>
-            <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-            <Form
-                onSubmit={createLink}
-                render={({handleSubmit}) => (<form onSubmit={handleSubmit}>
-                        <input
-                            type="text"
-                            placeholder='@id'
-                            value={url}
-                            onChange={(e) => setUrl(e.target.value)}
-                        />
-                        <button onClick={handleSubmit}>作ってコピー</button>
-                    </form>)}
-            />
-            {message}
-            <div className={"bottom"}>
-                <a href="https://github.com/am230/youtube-live-chat-redirect">YTChat Redirect</a>
-                Made by <a href="https://twitter.com/AM4_02">二時半</a>
+    const [tip, setTip] = useState<JSX.Element>()
+    useEffect(() => {
+        setTip(<>
+            <div className="tip">
+                <h4>
+                    {window.location.origin}/api/redirect/... の後に@のidを付けても動きます（一応）
+                </h4>
+                <h5>
+                    例：{window.location.origin}/api/redirect/@am2.30
+                </h5>
             </div>
-        </div>);
+        </>)
+    }, [])
+    return (<div className='main'>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+        <Form
+            onSubmit={createLink}
+            render={({handleSubmit}) => (<form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    placeholder='@id'
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                />
+                <button onClick={handleSubmit}>作ってコピー</button>
+            </form>)}
+        />
+        {message}
+        {tip}
+        <div className="bottom">
+            <a href="https://github.com/am230/youtube-live-chat-redirect">YTChat Redirect</a>
+            Made by <a href="https://twitter.com/AM4_02">二時半</a>
+        </div>
+    </div>);
 };
 
 export default Home;
