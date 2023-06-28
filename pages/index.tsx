@@ -13,9 +13,9 @@ const Home = () => {
     };
 
     const createLink = async () => {
+        destroyMessage();
         const res = await axios.post<Response>('/api/channel_id', {url});
         const response = res.data;
-        destroyMessage();
 
         if (!response.ok) {
             console.log(response);

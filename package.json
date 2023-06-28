@@ -12,9 +12,7 @@
         "next": "latest",
         "react": "18.2.0",
         "react-dom": "18.2.0",
-        "react-final-form": "^6.5.9",
-        "xmldom": "^0.6.0",
-        "xpath": "^0.0.32"
+        "react-final-form": "^6.5.9"
     },
     "devDependencies": {
         "@types/node": "18.15.3",
