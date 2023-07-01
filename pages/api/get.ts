@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from "next"
-import {getChannelId} from "../channel_id";
+import {getChannelId} from "./channel_id";
 
 const regex = /"VIDEO_ID":"([\w\d_]+)"/;
 
@@ -30,8 +30,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse,
     if (id.includes('@')) {
         id = await getChannelId(id)
     }
-    fetchLastVideoUrl(id)
-        .then((url) => res.redirect(`https://www.youtube.com/live_chat?is_popout=1&v=${url}`))
+    return fetchLastVideoUrl(id)
+        .then((url) => {
+            res.json(url)
+        })
         .catch((err) => {
             res.status(500).json(err)
         })

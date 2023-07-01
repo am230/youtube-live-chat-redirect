@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
 
 * {
     margin: 0;
     color: #000;
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: 'Noto Color Emoji', 'Noto Sans JP', sans-serif;
     --color-primary: #3da0b4;
 }
 
@@ -143,4 +144,12 @@ button:hover {
     background-color: var(--color-primary);
     color: #fff;
     transform: scale(105%) translateY(-1px);
+}
+
+.control-panel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: rgba(241, 246, 247, 1) !important;
+    color: #1c5a67;
 }
