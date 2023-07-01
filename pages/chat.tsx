@@ -85,7 +85,7 @@ const Chat = () => {
         {control && <div className="control-panel">
             <button onClick={async () => {
                 let url = new URL(window.location.href);
-                await navigator.clipboard.writeText(`${window.location.origin}/${url.pathname}?transparent=true&noControl=true&id=${id}`);
+                await navigator.clipboard.writeText(`${window.location.origin}${url.pathname}?transparent=true&noControl=true&id=${id}`);
                 setMessage('コピーしました！')//`${window.location.origin}/api/redirect/${response.id}`;
             }}>
                 リンクをコピー
