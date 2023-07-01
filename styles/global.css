@@ -4,8 +4,12 @@
 * {
     margin: 0;
     color: #000;
-    font-family: 'Noto Color Emoji', 'Noto Sans JP', sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
     --color-primary: #3da0b4;
+}
+
+.emoji {
+    font-family: 'Noto Color Emoji', 'Noto Sans JP', sans-serif;
 }
 
 ::selection {

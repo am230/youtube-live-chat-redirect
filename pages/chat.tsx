@@ -13,42 +13,23 @@ interface Next {
     reactions: ReactionData[]
 }
 
-const test: ReactionData[] = [
-    {
-        "reactions": [
-            {
-                "key": "😳",
-                "value": 1
-            },
-            {
-                "key": "🎉",
-                "value": 1
-            },
-            {
-                "key": "😄",
-                "value": 1
-            }
-        ],
-        "totalReactions": 3,
-        "duration": {
-            "seconds": "1"
-        },
-        "intensityScore": 0.75
-    },
-    {
-        "reactions": [
-            {
-                "key": "❤",
-                "value": 1
-            }
-        ],
-        "totalReactions": 1,
-        "duration": {
-            "seconds": "1"
-        },
-        "intensityScore": 0.75
-    },
-]
+const test: ReactionData[] = [{
+    "reactions": [{
+        "key": "😳", "value": 1
+    }, {
+        "key": "🎉", "value": 1
+    }, {
+        "key": "😄", "value": 1
+    }], "totalReactions": 3, "duration": {
+        "seconds": "1"
+    }, "intensityScore": 0.75
+}, {
+    "reactions": [{
+        "key": "❤", "value": 1
+    }], "totalReactions": 1, "duration": {
+        "seconds": "1"
+    }, "intensityScore": 0.75
+},]
 
 const Chat = () => {
     const [control, setControl] = useState<boolean>(true)
@@ -130,15 +111,13 @@ const Chat = () => {
 
 
         {!transparent && <style>
-            {
-                `
+            {`
                 body {
                     background: transparent !important
                 }
-                `
-            }
+                `}
         </style>}
-        <ReactionContainer reactions={reactions} />
+        <ReactionContainer reactions={reactions}/>
     </>
 };
 

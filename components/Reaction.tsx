@@ -41,7 +41,7 @@ const Reaction = (props: { id: number, value: string }) => {
         requestAnimationFrame(updatePosition);
     };
 
-    return <div className={styles.reaction} id={id}>
+    return <div className={`${styles.reaction} emoji`} id={id}>
         {props.value}
     </div>
 }
