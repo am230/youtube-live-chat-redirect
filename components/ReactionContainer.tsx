@@ -46,7 +46,7 @@ const ReactionContainer = (props: { reactions: ReactionData[] }) => {
 
     const updatePosition = () => {
         props.reactions.map(data => create(data))
-        const newReactions = [...data.reactions.filter(reaction => reaction.age++ < 200)]
+        const newReactions = [...data.reactions.filter(reaction => reaction.age++ < 100)]
         props.reactions.splice(0)
         data.reactions = newReactions
         setRender(data.render ++)

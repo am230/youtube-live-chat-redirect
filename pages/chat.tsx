@@ -30,6 +30,7 @@ const test: ReactionData[] = [{
         "seconds": "1"
     }, "intensityScore": 0.75
 },]
+const lock = []
 
 const Chat = () => {
     const [control, setControl] = useState<boolean>(true)
@@ -66,6 +67,8 @@ const Chat = () => {
         setTransparent(!params.get("transparent"))
         setControl(!params.get("noControl"))
         getChat(params.get("id"))
+        if (lock.length) return
+        lock.push(1)
         setTimeout(() => update(), 1000)
     }, [])
 
@@ -78,7 +81,7 @@ const Chat = () => {
                     reactions.push(...res.reactions)
                 })
         }
-        setTimeout(() => update(), 500)
+        setTimeout(() => update(), 1000)
     }
 
     return <>
