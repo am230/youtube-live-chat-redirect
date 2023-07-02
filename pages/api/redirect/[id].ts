@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from "next"
 import {getChannelId} from "../channel_id";
 
-const regex = /"VIDEO_ID":"([\w\d_]+)"/;
+const regex = /"VIDEO_ID":"([\w\d_-]+)"/;
 
 function fetchLastVideoUrl(channelId: string): Promise<string> {
     return new Promise((resolve, reject) => {

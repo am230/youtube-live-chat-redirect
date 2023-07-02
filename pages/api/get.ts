@@ -1,8 +1,26 @@
 import {NextApiRequest, NextApiResponse} from "next"
 import {getChannelId} from "./channel_id";
+import {DOMParser} from 'xmldom'
 
-const regex = /"VIDEO_ID":"([\w\d_]+)"/;
+const regex = /"VIDEO_ID":"([\w\d_-]+)"/;
 
+function fetchLastVideoUrlOld(channelId: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+        fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`)
+            .then((response) => response.text())
+            .then((data) => {
+                const doc = new DOMParser().parseFromString(data)
+                const link = doc.getElementsByTagName('entry')[0].getElementsByTagName('link')[0].getAttribute('href')
+                if (!link || !link.includes("v=")) {
+                    return reject(new Error('No id found'))
+                }
+                return resolve(link.split("v=")[1])
+            })
+            .catch(reason => {
+                return reject(new Error('良く分からないエラーが出ました…'))
+            })
+    })
+}
 function fetchLastVideoUrl(channelId: string): Promise<string> {
     return new Promise((resolve, reject) => {
         fetch(`https://www.youtube.com/embed/live_stream?channel=${channelId}`)
@@ -16,7 +34,9 @@ function fetchLastVideoUrl(channelId: string): Promise<string> {
                 return resolve(match[1])
             })
             .catch(reason => {
-                return reject(new Error('良く分からないエラーが出ました…'))
+                fetchLastVideoUrlOld(channelId)
+                    .then(resolve)
+                    .catch(reject)
             })
     })
 }
