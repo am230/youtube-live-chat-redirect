@@ -45,12 +45,16 @@ interface Query {
     id: string
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse,) {
-    let {id} = req.query as unknown as Query
+export const getLive = async (id: string) => {
     if (id.includes('@')) {
         id = await getChannelId(id)
     }
-    return fetchLastVideoUrl(id)
+    return await fetchLastVideoUrl(id)
+}
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse,) {
+    const {id} = req.query as unknown as Query
+    return getLive(id)
         .then((url) => {
             res.json(url)
         })
