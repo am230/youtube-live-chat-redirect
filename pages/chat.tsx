@@ -89,7 +89,7 @@ const Chat = () => {
             <button onClick={async () => {
                 let url = new URL(window.location.href);
                 await navigator.clipboard.writeText(`${window.location.origin}${url.pathname}?transparent=true&noControl=true&id=${id}`);
-                setMessage('コピーしました！')//`${window.location.origin}/api/redirect/${response.id}`;
+                setMessage('コピーしました！')
             }}>
                 リンクをコピー
             </button>
@@ -113,13 +113,7 @@ const Chat = () => {
         </div>}
 
 
-        {!transparent && <style>
-            {`
-                body {
-                    background: transparent !important
-                }
-                `}
-        </style>}
+        {!transparent && <style>{`body {background: transparent !important}`}</style>}
         <ReactionContainer reactions={reactions}/>
     </>
 };

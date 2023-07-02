@@ -8,13 +8,14 @@ export interface ReactionData {
     intensityScore: number
 }
 
+
 const particles: { [key: number]: { x: number, y: number } } = {}
 const Reaction = (props: { id: number, value: string }) => {
     const id = `reaction-${props.id}`
     if (!(id in particles)) {
         particles[id] = {
-            x: Math.random() * (window.innerWidth - 200) + 100,
-            y: Math.random() * window.innerHeight / 2 + window.innerHeight / 2 - 100,
+            x: Math.random() * (window.innerWidth - 100),
+            y: Math.random() * (window.innerHeight - 300) + 250,
             age: 0,
             vx: Math.random() - 0.5
         }
