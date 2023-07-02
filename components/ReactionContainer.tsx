@@ -35,6 +35,8 @@ const ReactionContainer = (props: { reactions: ReactionData[] }) => {
         reaction.reactions.forEach(reaction => {
             for (let i = 0; i < reaction.value; i++) {
                 data.spawnQueue.push(() => {
+                    if (data.reactions.length > 300) return
+                    
                     data.render ++;
                     data.reactions.push({
                         age: 0, element: <Reaction id={data.render} value={reaction.key}/>
