@@ -1,4 +1,4 @@
-import {NextApiRequest, NextApiResponse} from "next"
+import { NextApiRequest, NextApiResponse } from "next"
 
 interface Query {
     key: string
@@ -6,7 +6,7 @@ interface Query {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse,) {
-    let {key, continue_str} = req.query as unknown as Query
+    let { key, continue_str } = req.query as unknown as Query
 
     let payload = {
         context: {
@@ -26,7 +26,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse,
             continue_str = liveChatContinuation['continuations'][0]["invalidationContinuationData"]["continuation"];
             let reactions = []
             if ('frameworkUpdates' in data) {
-                reactions = data['frameworkUpdates']['entityBatchUpdate']['mutations'][0]['payload']['emojiFountainDataEntity']['reactionBuckets']
+                const payload = data['frameworkUpdates']['entityBatchUpdate']['mutations'][0]['payload']
+                if ('emojiFountainDataEntity' in payload) {
+                    reactions = payload['emojiFountainDataEntity']['reactionBuckets']
+                }
             }
             res.status(200).json({
                 continue_str,

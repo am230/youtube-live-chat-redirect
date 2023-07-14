@@ -1,6 +1,6 @@
-import {NextApiRequest, NextApiResponse} from "next"
-import {getChannelId} from "./channel_id";
-import {DOMParser} from 'xmldom'
+import { NextApiRequest, NextApiResponse } from "next"
+import { getChannelId } from "./channel_id";
+import { DOMParser } from 'xmldom'
 
 const regex = /"VIDEO_ID":"([\w\d_-]+)"/;
 
@@ -31,12 +31,16 @@ function fetchLastVideoUrl(channelId: string): Promise<string> {
                 if (!match.length) {
                     return reject(new Error('配信を見つけられませんでした…'))
                 }
+                if (match[1] === 'live_stream') {
+                    fetchLastVideoUrlOld(channelId)
+                        .then(resolve)
+                        .catch(reject)
+                    return
+                }
                 return resolve(match[1])
             })
             .catch(reason => {
-                fetchLastVideoUrlOld(channelId)
-                    .then(resolve)
-                    .catch(reject)
+                return reject(reason)
             })
     })
 }
@@ -52,13 +56,23 @@ export const getLive = async (id: string) => {
     return await fetchLastVideoUrl(id)
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse,) {
-    const {id} = req.query as unknown as Query
+export interface GetLiveResponse {
+    ok: boolean
+    message?: string
+    url?: string
+}
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse<GetLiveResponse>,) {
+    const { id } = req.query as unknown as Query
     return getLive(id)
         .then((url) => {
-            res.json(url)
+            res.status(200).json({
+                url, ok: true
+            })
         })
         .catch((err) => {
-            res.status(500).json(err)
+            res.status(200).json({
+                message: err.toString(), ok: false
+            })
         })
 }

@@ -2,11 +2,9 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {ReactionData} from "../components/Reaction";
 import ReactionContainer from "../components/ReactionContainer";
+import { NewChatResponse } from './api/chat/new/[id]';
+import { GetLiveResponse } from './api/get';
 
-interface Chat {
-    key: string
-    continue_str: string
-}
 
 interface Next {
     continue_str: string
@@ -35,7 +33,7 @@ const lock = []
 const Chat = () => {
     const [control, setControl] = useState<boolean>(true)
     const [id, setId] = useState<string>(null)
-    const [chat, setChat] = useState<Chat | any>({})
+    const [chat, setChat] = useState<NewChatResponse | any>({})
     const [reactions, setReactions] = useState<ReactionData[]>([])
     const [transparent, setTransparent] = useState(false)
     const [message, setMessage] = useState('')
@@ -48,16 +46,23 @@ const Chat = () => {
         try {
             setMessage('接続中…')
             console.log(id)
-            const video = await axios.get<string>(`/api/get?id=${id}`)
-            console.log(video.data)
-            const res = await axios.get<Chat>(`/api/chat/new/${video.data}`)
+            const video = await axios.get<GetLiveResponse>(`/api/get?id=${id}`)
+            if (!video.data.ok) {
+                setMessage(video.data.message)
+                return
+            }
+            const res = await (await axios.get<NewChatResponse>(`/api/chat/new/${video.data.url}`))
             const data = res.data
+            if (!data.ok) {
+                setMessage(data.message)
+                return
+            }
             chat.key = data.key
             chat.continue_str = data.continue_str
             console.log(chat)
             setMessage('接続しました！')
         } catch (e) {
-            setMessage('エラーが発生しました…')
+            setMessage(`エラーが発生しました…: ${e}`)
         }
     }
 
