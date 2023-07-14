@@ -2,6 +2,7 @@ import {NextApiRequest, NextApiResponse} from "next"
 import {getChannelId} from "../channel_id";
 import {getLive} from "../get"
 
+export const runtime = "edge";
 interface Query {
     id: string
 }

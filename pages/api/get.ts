@@ -2,6 +2,8 @@ import {NextApiRequest, NextApiResponse} from "next"
 import {getChannelId} from "./channel_id";
 import {DOMParser} from 'xmldom'
 
+export const runtime = "edge";
+
 const regex = /"VIDEO_ID":"([\w\d_-]+)"/;
 
 function fetchLastVideoUrlOld(channelId: string): Promise<string> {
