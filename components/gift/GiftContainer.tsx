@@ -1,4 +1,4 @@
-import Gift, {GiftData} from "./Gift";
+import Gift from "./Gift";
 import {ReactElement, useEffect, useState} from "react";
 import Reaction from "../reaction/Reaction";
 
@@ -46,7 +46,7 @@ const GiftContainer = (props: { reactions: GiftData[] }) => {
         };
     }, []);
 
-    const create = (gift: GiftData): Entry[] => {
+    const create = (gift: GiftData) => {
         console.log(gift)
         data.spawnQueue.push(() => {
             if (data.reactions.length > 300) return
