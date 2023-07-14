@@ -38,7 +38,7 @@ export default function IndexPage() {
     const [control, setControl] = useState<boolean>(true)
     const [id, setId] = useState<string>(null)
     const [chat, setChat] = useState<Chat | any>({})
-    const [reactions, setReactions] = useState<[]>([])
+    const [reactions, setReactions] = useState<any[]>([])
     const [transparent, setTransparent] = useState(false)
     const [message, setMessage] = useState('')
     const [socket, setSocket] = useState<WebSocket | null>(null)
