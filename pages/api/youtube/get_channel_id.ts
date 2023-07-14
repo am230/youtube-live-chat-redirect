@@ -47,7 +47,7 @@ export interface Response {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Response>,) {
     const {url} = req.body as unknown as Body
-    getChannelId(url)
+    return getChannelId(url)
         .then(id => {
             res.status(200).json({
                 id, ok: true

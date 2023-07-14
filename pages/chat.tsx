@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {ReactionData} from "../components/Reaction";
 import ReactionContainer from "../components/ReactionContainer";
-import { NewChatResponse } from './api/chat/new/[id]';
-import { GetLiveResponse } from './api/get';
+import { NewChatResponse } from './api/youtube/chat/new';
+import { GetLiveResponse } from './api/youtube/get_live';
 
 
 interface Next {
@@ -46,12 +46,20 @@ const Chat = () => {
         try {
             setMessage('接続中…')
             console.log(id)
-            const video = await axios.get<GetLiveResponse>(`/api/get?id=${id}`)
+            const video = await axios.get<GetLiveResponse>(`/api/youtube/get_live`, {
+                params: {
+                    id
+                }
+            })
             if (!video.data.ok) {
                 setMessage(video.data.message)
                 return
             }
-            const res = await (await axios.get<NewChatResponse>(`/api/chat/new/${video.data.url}`))
+            const res = await axios.get<NewChatResponse>(`/api/youtube/chat/new`, {
+                params: {
+                    id: video.data.url
+                }
+            })
             const data = res.data
             if (!data.ok) {
                 setMessage(data.message)
@@ -79,7 +87,7 @@ const Chat = () => {
 
     const update = () => {
         if (chat.key) {
-            axios.get<Next>(`/api/chat/next?key=${chat.key}&continue_str=${chat.continue_str}`)
+            axios.get<Next>(`/api/youtube/chat/next?key=${chat.key}&continue_str=${chat.continue_str}`)
                 .then(res => res.data)
                 .then(res => {
                     chat.continue_str = res.continue_str

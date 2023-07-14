@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Form} from 'react-final-form';
-import {Response} from "./api/youtube/get_channel_id";
+import {Response} from "../api/youtube/get_channel_id";
 import axios from "axios";
 
 const Home = () => {
@@ -14,7 +14,7 @@ const Home = () => {
 
     const createLink = async () => {
         destroyMessage();
-        const res = await axios.post<Response>('/api/channel_id', {url});
+        const res = await axios.post<Response>('/api/youtube/get_channel_id', {url});
         const response = res.data;
 
         if (!response.ok) {
@@ -27,7 +27,7 @@ const Home = () => {
             return;
         }
 
-        const result = `${window.location.origin}/api/redirect/${response.id}`;
+        const result = `${window.location.origin}/api/youtube/redirect/${response.id}`;
         setResult(result);
         await navigator.clipboard.writeText(result);
         setMessage(<p className='message'>

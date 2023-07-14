@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { getChannelId } from "./channel_id";
+import { getChannelId } from "./get_channel_id";
 import { DOMParser } from 'xmldom'
 
 const regex = /"VIDEO_ID":"([\w\d_-]+)"/;

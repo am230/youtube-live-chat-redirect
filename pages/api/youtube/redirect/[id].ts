@@ -1,6 +1,6 @@
 import {NextApiRequest, NextApiResponse} from "next"
-import {getChannelId} from "../channel_id";
-import {getLive} from "../get"
+import {getChannelId} from "../get_channel_id";
+import {getLive} from "../get_live"
 
 interface Query {
     id: string
