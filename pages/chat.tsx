@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import Reaction, {ReactionData} from "../components/reaction/Reaction";
-import ReactionContainer from "../components/reaction/ReactionContainer";
+import {ReactionData} from "../components/Reaction";
+import ReactionContainer from "../components/ReactionContainer";
 
 interface Chat {
     key: string
