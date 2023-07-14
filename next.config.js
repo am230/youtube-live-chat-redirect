@@ -1,9 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
+    // reactStrictMode: true,
+    reactStrictMode: false,
     swcMinify: true,
     images: {
-        domains: ['localhost']
+        domains: ['localhost'],
+        remotePatterns: [
+            {
+                hostname: 'twitcasting.tv',
+                pathname: '/**'
+            },
+            {
+                hostname: '*.twitcasting.tv',
+                pathname: '/**'
+            }
+        ]
     },
 
     async rewrites() {

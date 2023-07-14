@@ -1,5 +1,6 @@
 import {NextApiRequest, NextApiResponse} from "next"
 
+export const runtime = "edge";
 interface Query {
     key: string
     continue_str: string
