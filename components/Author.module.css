@@ -1,0 +1,10 @@
+.bottom {
+    position: fixed;
+    color: var(--color-primary);
+    font-size: 12px;
+    display: flex;
+    gap: 4px;
+    bottom: 20px;
+    right: 10px;
+    align-items: flex-end;
+}

@@ -1,78 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import {Form} from 'react-final-form';
-import {Response} from "./api/youtube/get_channel_id";
-import axios from "axios";
+import React from 'react';
+import Card from '../components/Card';
+import Author from '../components/Author';
+import ShaderToy from '../components/ShaderToy';
+import DitherFilter from '../components/DitherFilter';
+import styles from './index.module.css';
+
 
 const Home = () => {
-    const [url, setUrl] = useState('');
-    const [message, setMessage] = useState(<p className='message'></p>);
-    const [result, setResult] = useState('');
-
-    const destroyMessage = () => {
-        setMessage(<p className='message'></p>);
-    };
-
-    const createLink = async () => {
-        destroyMessage();
-        const res = await axios.post<Response>('/api/channel_id', {url});
-        const response = res.data;
-
-        if (!response.ok) {
-            console.log(response);
-            setMessage(<p className='message failed'>
-                <span className="material-symbols-outlined">&#xe000;</span>
-                {response.error}
-            </p>);
-            setTimeout(() => destroyMessage(), 5000);
-            return;
-        }
-
-        const result = `${window.location.origin}/api/redirect/${response.id}`;
-        setResult(result);
-        await navigator.clipboard.writeText(result);
-        setMessage(<p className='message'>
-            <span className="material-symbols-outlined">&#xe86c;</span>
-            コピーしました！
-        </p>);
-        setTimeout(() => destroyMessage(), 5000);
-    };
-    const [tip, setTip] = useState<JSX.Element>()
-    useEffect(() => {
-        setTip(<>
-            <div className="tip">
-                <h4>
-                    {window.location.origin}/api/redirect/... の後に@のidを付けても動きます（一応）
-                </h4>
-                <h5>
-                    例：{window.location.origin}/api/redirect/@am2.30
-                </h5>
+    return <>
+        <DitherFilter>
+            <div className={styles.main}>
+                <div className={styles.cardleft}>
+                    <Card title='ライブのリアクション表示するやつ' description='ライブのリアクションを重ねて表示するためのやつです。' href='/chat' />
+                    <Card title='ライブのリアクション表示するやつ' description='ライブのリアクションを重ねて表示するためのやつです。' href='/chat' />
+                </div>
+                <Author />
             </div>
-        </>)
-    }, [])
-    return (<div className='main'>
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-        <Form
-            onSubmit={createLink}
-            render={({handleSubmit}) => (<form onSubmit={handleSubmit}>
-                1.
-                <input
-                    type="text"
-                    placeholder='@id...'
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
-                />
-                2.
-                <button onClick={handleSubmit}>作ってコピー</button>
-            </form>)}
-        />
-        {message}
-        {tip}
-        <div className="bottom">
-            <a href="https://github.com/am230/youtube-live-chat-redirect">YTChat Redirect</a>
-            made by
-            <a href="https://twitter.com/AM4_02">二時半</a>
+        </DitherFilter>
+        <div className={styles.overlay}>
+            <ShaderToy />
         </div>
-    </div>);
+    </>;
 };
 
 export default Home;

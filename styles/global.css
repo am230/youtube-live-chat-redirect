@@ -1,9 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
 
 * {
     margin: 0;
-    color: #000;
+    color: #1c5a67;
     font-family: 'Noto Sans JP', sans-serif;
     --color-primary: #3da0b4;
 }
@@ -35,17 +36,6 @@ a {
     font-size: 15px;
     text-decoration: underline;
     text-underline-offset: 8px;
-}
-
-.bottom {
-    position: fixed;
-    color: var(--color-primary);
-    font-size: 12px;
-    display: flex;
-    gap: 4px;
-    bottom: 20px;
-    right: 10px;
-    align-items: flex-end;
 }
 
 .tip {
@@ -80,11 +70,11 @@ a {
     gap: 30px;
 }
 
-.message > span {
+.message>span {
     color: var(--color-primary);
 }
 
-.failed > span,
+.failed>span,
 .failed {
     color: #df2121;
 }
@@ -127,7 +117,8 @@ input:focus {
     color: #ffffff;
 }
 
-input:hover, input:focus {
+input:hover,
+input:focus {
     transform: scale(105%) translateY(-1px);
 }
 

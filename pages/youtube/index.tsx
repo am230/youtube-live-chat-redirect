@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Form} from 'react-final-form';
 import {Response} from "../api/youtube/get_channel_id";
 import axios from "axios";
+import Author from '../../components/Author';
 
 const Home = () => {
     const [url, setUrl] = useState('');
@@ -50,7 +51,6 @@ const Home = () => {
         </>)
     }, [])
     return (<div className='main'>
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
         <Form
             onSubmit={createLink}
             render={({handleSubmit}) => (<form onSubmit={handleSubmit}>
@@ -67,11 +67,7 @@ const Home = () => {
         />
         {message}
         {tip}
-        <div className="bottom">
-            <a href="https://github.com/am230/youtube-live-chat-redirect">YTChat Redirect</a>
-            made by
-            <a href="https://twitter.com/AM4_02">二時半</a>
-        </div>
+        <Author />
     </div>);
 };
 

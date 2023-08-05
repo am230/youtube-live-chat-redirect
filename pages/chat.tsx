@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import {ReactionData} from "../components/Reaction";
-import ReactionContainer from "../components/ReactionContainer";
+import { ReactionData } from "../components/chat/reaction/Reaction";
+import ReactionContainer from "../components/chat/reaction/ReactionContainer";
 import { NewChatResponse } from './api/youtube/chat/new';
 import { GetLiveResponse } from './api/youtube/get_live';
+import DitherFilter from '../components/DitherFilter';
 
 
 interface Next {
@@ -37,6 +38,7 @@ const Chat = () => {
     const [reactions, setReactions] = useState<ReactionData[]>([])
     const [transparent, setTransparent] = useState(false)
     const [message, setMessage] = useState('')
+    const [video, setVideo] = useState<any>(<></>)
 
     const getChat = async (id: string) => {
         if (!id) {
@@ -55,6 +57,20 @@ const Chat = () => {
                 setMessage(video.data.message)
                 return
             }
+            setVideo(<iframe
+                src={`https://www.youtube.com/embed/${video.data.url}?autoplay=1`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen={true}
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    zIndex: -1
+                }}
+            ></iframe>)
             const res = await axios.get<NewChatResponse>(`/api/youtube/chat/new`, {
                 params: {
                     id: video.data.url
@@ -98,36 +114,38 @@ const Chat = () => {
     }
 
     return <>
-        {control && <div className="control-panel">
-            <button onClick={async () => {
-                let url = new URL(window.location.href);
-                await navigator.clipboard.writeText(`${window.location.origin}${url.pathname}?transparent=true&noControl=true&id=${id}`);
-                setMessage('コピーしました！')
-            }}>
-                リンクをコピー
-            </button>
-            <button onClick={() => {
-                reactions.push(...test)
-            }}>
-                お試しボタン
-            </button>
-            <button onClick={() => {
-                setTransparent(!transparent)
-            }}>
-                背景透過切り替え
-            </button>
-            <input
-                type="text"
-                placeholder='@id...'
-                onChange={(e) => setId(e.target.value)}
-                onBlur={(e) => getChat(e.target.value)}
-            />
-            <h4>{message}</h4>
-        </div>}
+        <DitherFilter>
+            {control && <div className="control-panel">
+                <button onClick={async () => {
+                    let url = new URL(window.location.href);
+                    await navigator.clipboard.writeText(`${window.location.origin}${url.pathname}?transparent=true&noControl=true&id=${id}`);
+                    setMessage('コピーしました！')
+                }}>
+                    リンクをコピー
+                </button>
+                <button onClick={() => {
+                    reactions.push(...test)
+                }}>
+                    お試しボタン
+                </button>
+                <button onClick={() => {
+                    setTransparent(!transparent)
+                }}>
+                    背景透過切り替え
+                </button>
+                <input
+                    type="text"
+                    placeholder='@id...'
+                    onChange={(e) => setId(e.target.value)}
+                    onBlur={(e) => getChat(e.target.value)}
+                />
+                <h4>{message}</h4>
+            </div>}
+            {video}
 
-
-        {!transparent && <style>{`body {background: transparent !important}`}</style>}
-        <ReactionContainer reactions={reactions}/>
+            {!transparent && <style>{`body {background: transparent !important}`}</style>}
+            <ReactionContainer reactions={reactions} />
+        </DitherFilter>
     </>
 };
 

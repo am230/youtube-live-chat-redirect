@@ -1,0 +1,72 @@
+.dither {
+    background: #000;
+    filter: url("#discrete");
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.dither .source {
+    filter: url("#gamma") opacity(0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.dither .add {
+    filter: opacity(0.498046875);
+    pointer-events: none;
+    mix-blend-mode: screen;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.dither .bayer {
+    background: url("http://i.imgur.com/xrwK0bK.png");
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.dither .blue-noise {
+    background: url("http://i.imgur.com/mJhLjaN.png");
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.dither .blue-noise-rgb {
+    background: url("http://i.imgur.com/dNHFFR9.png");
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.filter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: -10;
+}
