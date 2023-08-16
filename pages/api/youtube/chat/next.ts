@@ -22,6 +22,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse,
         .then(response => response.json())
         .then(data => {
             // console.log('frameworkUpdates' in data)
+            if (!data['continuationContents']) {
+                res.status(200).json({
+                    continue_str: null,
+                    reactions: []
+                })
+                return
+            }
             const liveChatContinuation = data['continuationContents']['liveChatContinuation'];
             const invalidationContinuationData = liveChatContinuation['continuations'][0]["invalidationContinuationData"]
             if (!invalidationContinuationData) {
