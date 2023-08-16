@@ -7,7 +7,7 @@ import { GetLiveResponse } from './api/youtube/get_live';
 
 
 interface Next {
-    continue_str: string
+    continue_str: string | null
     reactions: ReactionData[]
 }
 
@@ -32,7 +32,6 @@ const lock = []
 
 const Chat = () => {
     const [control, setControl] = useState<boolean>(true)
-    const [id, setId] = useState<string>(null)
     const [chat, setChat] = useState<NewChatResponse | any>({})
     const [reactions, setReactions] = useState<ReactionData[]>([])
     const [transparent, setTransparent] = useState(false)
@@ -79,6 +78,7 @@ const Chat = () => {
         let params = url.searchParams;
         setTransparent(!params.get("transparent"))
         setControl(!params.get("noControl"))
+        chat.id = params.get("id")
         getChat(params.get("id"))
         if (lock.length) return
         lock.push(1)
@@ -86,13 +86,16 @@ const Chat = () => {
     }, [])
 
     const update = () => {
-        if (chat.key) {
+        if (chat.key && chat.continue_str) {
             axios.get<Next>(`/api/youtube/chat/next?key=${chat.key}&continue_str=${chat.continue_str}`)
                 .then(res => res.data)
                 .then(res => {
                     chat.continue_str = res.continue_str
                     reactions.push(...res.reactions)
                 })
+        }
+        if (!chat.continue_str) {
+            getChat(chat.id)
         }
         setTimeout(() => update(), 1000)
     }
@@ -101,7 +104,7 @@ const Chat = () => {
         {control && <div className="control-panel">
             <button onClick={async () => {
                 let url = new URL(window.location.href);
-                await navigator.clipboard.writeText(`${window.location.origin}${url.pathname}?transparent=true&noControl=true&id=${id}`);
+                await navigator.clipboard.writeText(`${window.location.origin}${url.pathname}?transparent=true&noControl=true&id=${chat.id}`);
                 setMessage('コピーしました！')
             }}>
                 リンクをコピー
@@ -119,7 +122,7 @@ const Chat = () => {
             <input
                 type="text"
                 placeholder='@id...'
-                onChange={(e) => setId(e.target.value)}
+                onChange={(e) => chat.id = e.target.value}
                 onBlur={(e) => getChat(e.target.value)}
             />
             <h4>{message}</h4>
