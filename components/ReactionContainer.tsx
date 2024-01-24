@@ -1,5 +1,5 @@
-import Reaction, {ReactionData} from "./Reaction";
-import {ReactElement, useEffect, useState} from "react";
+import { ReactElement, useEffect, useState } from "react";
+import Reaction from "./Reaction";
 
 interface Entry {
     age: number
@@ -7,12 +7,16 @@ interface Entry {
 }
 
 const data = {
-        reactions: [],
-        spawnQueue: [],
-        render: 0
-    }
+    reactions: [],
+    spawnQueue: [],
+    render: 0
+}
 
-const ReactionContainer = (props: { reactions: ReactionData[] }) => {
+const ReactionContainer = (props: {
+    reactions: {
+        key: string;
+    }[]
+}) => {
     const [render, setRender] = useState(0)
 
     useEffect(() => {
@@ -29,29 +33,27 @@ const ReactionContainer = (props: { reactions: ReactionData[] }) => {
         };
     }, []);
 
-    const create = (reaction: ReactionData): Entry[] => {
-        if (!reaction.reactions)
-            return
-        reaction.reactions.forEach(reaction => {
-            for (let i = 0; i < reaction.value; i++) {
-                data.spawnQueue.push(() => {
-                    if (data.reactions.length > 300) return
-                    
-                    data.render ++;
-                    data.reactions.push({
-                        age: 0, element: <Reaction id={data.render} value={reaction.key}/>
-                    })
-                })
-            }
-        })
-    }
-
     const updatePosition = () => {
-        props.reactions.map(data => create(data))
+        props.reactions.forEach((reaction, i) => {
+            if (data.reactions.filter(r => r.key === reaction.key).length) return
+            const element = <Reaction id={`${Date.now()}-${i}`} value={reaction.key} />
+            data.reactions.push({
+                age: 0,
+                element
+            })
+            data.spawnQueue.push(() => {
+                const element = <Reaction id={`${Date.now()}-${i}`} value={reaction.key} />
+                data.reactions.push({
+                    age: 0,
+                    element
+                })
+                setRender(data.render++)
+            })
+        })
         const newReactions = [...data.reactions.filter(reaction => reaction.age++ < 100)]
         props.reactions.splice(0)
         data.reactions = newReactions
-        setRender(data.render ++)
+        setRender(data.render++)
         requestAnimationFrame(updatePosition);
     };
 

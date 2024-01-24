@@ -1,16 +1,9 @@
-import styles from "./Reaction.module.css"
-import {useEffect} from "react";
-
-export interface ReactionData {
-    reactions: { "key": string, "value": number }[],
-    totalReactions: number,
-    duration: { seconds: string },
-    intensityScore: number
-}
+import { useEffect } from "react";
+import styles from "./Reaction.module.css";
 
 
 const particles: { [key: number]: { x: number, y: number } } = {}
-const Reaction = (props: { id: number, value: string }) => {
+const Reaction = (props: { id: string, value: string }) => {
     const id = `reaction-${props.id}`
     if (!(id in particles)) {
         particles[id] = {
@@ -40,7 +33,8 @@ const Reaction = (props: { id: number, value: string }) => {
         if (!element) return
         element.style.left = `${particle.x}px`
         element.style.top = `${particle.y}px`
-        element.style.opacity = `${Math.min(1, particle.age / 10) - Math.max(0, (particle.age - 50) / 50)}`
+        // element.style.opacity = `${Math.min(1, particle.age / 10) - Math.max(0, (particle.age - 50) / 50)}`
+        element.style.color = `rgba(255, 255, 255, ${Math.min(1, particle.age / 10) - Math.max(0, (particle.age - 50) / 50)})`
         element.style.scale = `${(Math.min(1, Math.pow(particle.age, 1.5) / 20) - Math.max(0, (particle.age - 70) / 30))}`
         element.style.transform = `rotate(${Math.sin(particle.age / 15 + 1) * 5}deg)`;
 

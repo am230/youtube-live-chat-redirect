@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {ReactionData} from "../components/Reaction";
+import { useEffect, useState } from 'react';
 import ReactionContainer from "../components/ReactionContainer";
 import { NewChatResponse } from './api/youtube/chat/new';
 import { GetLiveResponse } from './api/youtube/get_live';
@@ -8,32 +7,14 @@ import { GetLiveResponse } from './api/youtube/get_live';
 
 interface Next {
     continue_str: string | null
-    reactions: ReactionData[]
+    reactions: { [key: string]: number }
 }
-
-const test: ReactionData[] = [{
-    "reactions": [{
-        "key": "😳", "value": 1
-    }, {
-        "key": "🎉", "value": 1
-    }, {
-        "key": "😄", "value": 1
-    }], "totalReactions": 3, "duration": {
-        "seconds": "1"
-    }, "intensityScore": 0.75
-}, {
-    "reactions": [{
-        "key": "❤", "value": 1
-    }], "totalReactions": 1, "duration": {
-        "seconds": "1"
-    }, "intensityScore": 0.75
-},]
 const lock = []
 
 const Chat = () => {
     const [control, setControl] = useState<boolean>(true)
     const [chat, setChat] = useState<NewChatResponse | any>({})
-    const [reactions, setReactions] = useState<ReactionData[]>([])
+    const [reactions, setReactions] = useState<{ key: string }[]>([])
     const [transparent, setTransparent] = useState(false)
     const [message, setMessage] = useState('')
 
@@ -91,7 +72,12 @@ const Chat = () => {
                 .then(res => res.data)
                 .then(res => {
                     chat.continue_str = res.continue_str
-                    reactions.push(...res.reactions)
+                    if (!res.reactions) return
+                    Object.keys(res.reactions).forEach(key => {
+                        for (let i = 0; i < res.reactions[key]; i++) {
+                            reactions.push({ key })
+                        }
+                    })
                 })
         }
         if (!chat.continue_str) {
@@ -110,7 +96,7 @@ const Chat = () => {
                 リンクをコピー
             </button>
             <button onClick={() => {
-                reactions.push(...test)
+                reactions.push({ key: '♥' })
             }}>
                 お試しボタン
             </button>
@@ -130,7 +116,7 @@ const Chat = () => {
 
 
         {!transparent && <style>{`body {background: transparent !important}`}</style>}
-        <ReactionContainer reactions={reactions}/>
+        <ReactionContainer reactions={reactions} />
     </>
 };
 
