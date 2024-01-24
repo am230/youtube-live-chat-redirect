@@ -24,7 +24,7 @@ function processReactions(data: any) {
             for (const reaction of bucket['reactions'] ?? []) {
                 reactions.set(reaction['key'], reaction['value'])
             }
-            for (const reaction of bucket['reactionsData']) {
+            for (const reaction of bucket['reactionsData'] ?? []) {
                 reactions.set(reaction['unicodeEmojiId'], reaction['reactionCount'])
             }
         }
