@@ -3,4 +3,5 @@
     font-size: 30px;
     white-space: nowrap;
     color: #fff;
+    transform: translate(-50%, -50%);
 }
