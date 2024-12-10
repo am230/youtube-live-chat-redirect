@@ -114,7 +114,7 @@ const ReactionCanvas: React.FC<{
             const [x, y] = position;
             if (opacity <= 0) return;
 
-            ctx.font = `${60 * depth}px "Noto Color Emoji"`;
+            ctx.font = `${35 * depth}px "Noto Color Emoji"`;
             ctx.save();
             ctx.globalAlpha = opacity * depth;
             ctx.translate(x, y);
