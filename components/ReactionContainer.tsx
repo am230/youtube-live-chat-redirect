@@ -108,6 +108,7 @@ const ReactionCanvas: React.FC<{
         const canvas = canvasRef.current;
         const ctx = context || canvas.getContext('2d');
         if (!ctx) return;
+        setContext(ctx);
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
