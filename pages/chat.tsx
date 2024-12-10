@@ -12,10 +12,15 @@ interface Next {
 const lock = []
 type Listener = (reactions: { key: string }[]) => (() => void) | void
 const listeners: Listener[] = [];
+const chat: NewChatResponse & { id: string } = {
+    ok: false,
+    key: '',
+    continue_str: '',
+    id: ''
+};
 
 const Chat = () => {
     const [control, setControl] = useState<boolean>(true)
-    const [chat, setChat] = useState<NewChatResponse | any>({})
     const [transparent, setTransparent] = useState(false)
     const [message, setMessage] = useState('')
 
@@ -67,24 +72,22 @@ const Chat = () => {
         setTimeout(() => update(), 1000)
     }, [])
 
-    const update = () => {
+    const update = async () => {
         if (chat.key && chat.continue_str) {
-            axios.get<Next>(`/api/youtube/chat/next?key=${chat.key}&continue_str=${chat.continue_str}`)
-                .then(res => res.data)
-                .then(res => {
-                    chat.continue_str = res.continue_str
-                    if (!res.reactions) return
-                    Object.keys(res.reactions).forEach(key => {
-                        for (let i = 0; i < res.reactions[key]; i++) {
-                            listeners.forEach(listener => {
-                                listener([{ key }])
-                            });
-                        }
-                    })
-                })
+            const res = await axios.get<Next>(`/api/youtube/chat/next?key=${chat.key}&continue_str=${chat.continue_str}`)
+            const data = res.data;
+            chat.continue_str = data.continue_str
+            if (!data.reactions) return
+            Object.keys(data.reactions).forEach(key => {
+                for (let i = 0; i < data.reactions[key]; i++) {
+                    listeners.forEach(listener => {
+                        listener([{ key }])
+                    });
+                }
+            })
         }
         if (!chat.continue_str) {
-            getChat(chat.id)
+            await getChat(chat.id)
         }
         setTimeout(() => update(), 1000)
     }

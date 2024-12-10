@@ -44,39 +44,37 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse,
         "continuation": continue_str,
     }
 
-    return fetch(`https://www.youtube.com/youtubei/v1/live_chat/get_live_chat?key=${key}&prettyPrint=False`, {
+    const data = await fetch(`https://www.youtube.com/youtubei/v1/live_chat/get_live_chat?key=${key}&prettyPrint=False`, {
         method: 'POST',
         body: JSON.stringify(payload),
         headers: {
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36'
         }
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (!data['continuationContents']) {
-                res.status(200).json({
-                    continue_str: null,
-                    reactions: []
-                })
-                return
-            }
-            const liveChatContinuation = data['continuationContents']['liveChatContinuation'];
-            const invalidationContinuationData = liveChatContinuation['continuations'][0]["invalidationContinuationData"]
-            if (!invalidationContinuationData) {
-                res.status(200).json({
-                    continue_str: null,
-                    reactions: []
-                })
-                return
-            }
-            continue_str = invalidationContinuationData["continuation"];
-            let reactions = {}
-            if ('frameworkUpdates' in data) {
-                reactions = processReactions(data)
-            }
-            res.status(200).json({
-                continue_str,
-                reactions
-            })
-        });
+    }).then(response => response.json());
+    if (!data['continuationContents']) {
+        res.status(200).json({
+            continue_str: null,
+            reactions: []
+        })
+        return
+    }
+    const liveChatContinuation = data['continuationContents']['liveChatContinuation'];
+    const continuation = liveChatContinuation.continuations[0];
+    const invalidationContinuationData = continuation["invalidationContinuationData"] || continuation.timedContinuationData;
+    if (!invalidationContinuationData) {
+        res.status(200).json({
+            continue_str: null,
+            reactions: []
+        })
+        return
+    }
+    continue_str = invalidationContinuationData["continuation"];
+    let reactions = {}
+    if ('frameworkUpdates' in data) {
+        reactions = processReactions(data)
+    }
+    res.status(200).json({
+        continue_str,
+        reactions
+    });
 }

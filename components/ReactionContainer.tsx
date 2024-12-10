@@ -57,6 +57,7 @@ const ReactionCanvas: React.FC<{
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const spawnQueue = useRef<string[]>([]);
     const prevSpawnTime = useRef(Date.now());
+    const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
 
     const resizeCanvas = () => {
         if (canvasRef.current) {
@@ -105,7 +106,7 @@ const ReactionCanvas: React.FC<{
     const drawCanvas = () => {
         if (!canvasRef.current) return;
         const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
+        const ctx = context || canvas.getContext('2d');
         if (!ctx) return;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
