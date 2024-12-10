@@ -10,11 +10,12 @@ interface Next {
     reactions: { [key: string]: number }
 }
 const lock = []
+type Listener = (reactions: { key: string }[]) => (() => void) | void
+const listeners: Listener[] = [];
 
 const Chat = () => {
     const [control, setControl] = useState<boolean>(true)
     const [chat, setChat] = useState<NewChatResponse | any>({})
-    const [reactions, setReactions] = useState<{ key: string }[]>([])
     const [transparent, setTransparent] = useState(false)
     const [message, setMessage] = useState('')
 
@@ -75,7 +76,9 @@ const Chat = () => {
                     if (!res.reactions) return
                     Object.keys(res.reactions).forEach(key => {
                         for (let i = 0; i < res.reactions[key]; i++) {
-                            reactions.push({ key })
+                            listeners.forEach(listener => {
+                                listener([{ key }])
+                            });
                         }
                     })
                 })
@@ -87,6 +90,10 @@ const Chat = () => {
     }
 
     return <>
+        <style lang="scss">
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
+        </style>
+
         {control && <div className="control-panel">
             <button onClick={async () => {
                 let url = new URL(window.location.href);
@@ -96,7 +103,9 @@ const Chat = () => {
                 リンクをコピー
             </button>
             <button onClick={() => {
-                reactions.push({ key: '♥' })
+                listeners.forEach(listener => {
+                    listener([{ key: '♥' }])
+                });
             }}>
                 お試しボタン
             </button>
@@ -116,7 +125,12 @@ const Chat = () => {
 
 
         {!transparent && <style>{`body {background: transparent !important}`}</style>}
-        <ReactionContainer reactions={reactions} />
+        <ReactionContainer listen={(listener) => {
+            listeners.push(listener)
+            return () => {
+                listeners.splice(listeners.indexOf(listener), 1)
+            }
+        }} />
     </>
 };
 
