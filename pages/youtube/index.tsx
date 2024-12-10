@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {Form} from 'react-final-form';
-import {Response} from "../api/youtube/get_channel_id";
+import React, { JSX, useEffect, useState } from 'react';
+import { Form } from 'react-final-form';
+import { Response } from "../api/youtube/get_channel_id";
 import axios from "axios";
 
 const Home = () => {
@@ -14,7 +14,7 @@ const Home = () => {
 
     const createLink = async () => {
         destroyMessage();
-        const res = await axios.post<Response>('/api/youtube/get_channel_id', {url});
+        const res = await axios.post<Response>('/api/youtube/get_channel_id', { url });
         const response = res.data;
 
         if (!response.ok) {
@@ -50,10 +50,10 @@ const Home = () => {
         </>)
     }, [])
     return (<div className='main'>
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
         <Form
             onSubmit={createLink}
-            render={({handleSubmit}) => (<form onSubmit={handleSubmit}>
+            render={({ handleSubmit }) => (<form onSubmit={handleSubmit}>
                 1.
                 <input
                     type="text"
